@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">ChuckNorrisJokes</string>
+    <string name="joke_example">Joke Example</string>
+    <string name="category">Category</string>
+    <string name="categories">Categories</string>
+    <string name="search">Search</string>
+    <string name="favorite">Favorite</string>
+    <string name="joke">Joke</string>
+    <string name="Next">next</string>
+    <string name="back">Back</string>
+    <string name="search_for_any_category">Search for joke on any category!</string>
+    <string name="invalid_query">"Size must be between 3 and 120"</string>
+    <string name="no_results">No results on a given query</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="favorite_jokes">Favorite Jokes</string>
+</resources>
