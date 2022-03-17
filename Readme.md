@@ -1,4 +1,4 @@
-# Chuck Norris Jokes
+# Chuck Norris Jokes 
 This is a simple application that displays various Chuck Norris jokes using api.chucknorris.io/
 
 Application has 3 screens with bottom navigation menu:
@@ -21,3 +21,5 @@ When clicking on any joke, alert dialog with joke pops up, and user can fully re
 Finally, user can access all his favorite jokes on a "Favorite" page. He can also click on a joke, read it, and decide, whether he wants to keep this joke on his device, or not
 
 <img src = "https://i.imgur.com/RjdQ7cl.png" width = 200px height = 400px>  <img src = "https://i.imgur.com/pUxL5RS.png" width = 200px height = 400px>
+
+## [Download [APK](https://github.com/seytkalievm/ChuckNorrisJokes/blob/master/ChuckNorrisJokes.apk)]
