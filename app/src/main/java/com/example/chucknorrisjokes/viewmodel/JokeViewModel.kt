@@ -35,10 +35,7 @@ class JokeViewModel(private val category: String, app: Application) : AndroidVie
 
     fun addJokeToFavorites(joke: Joke){
         coroutineScope.launch {
-            try {
-                repository.addJoke(joke)
-            }catch (E: Exception){
-            }
+            repository.addJoke(joke)
         }
     }
 

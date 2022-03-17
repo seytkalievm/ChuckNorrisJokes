@@ -17,15 +17,6 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
 
     val jokes: LiveData<List<Joke>> = repository.getAllJokes()
 
-    init {
-        Log.i("PIDORAAAAAAS", jokes.value.toString())
-    }
-
-
-    override fun onCleared() {
-        super.onCleared()
-    }
-
     fun deleteJoke(joke: Joke){
         repository.deleteJoke(joke)
     }
