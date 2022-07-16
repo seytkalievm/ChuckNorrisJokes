@@ -5,17 +5,21 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.chucknorrisjokes.model.network.ChuckNorrisApi
 import com.example.chucknorrisjokes.data.local.Joke
 import com.example.chucknorrisjokes.data.repositories.JokesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel (application: Application): AndroidViewModel(application) {
-
-    private val repository = JokesRepository(application)
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+    private val repository: JokesRepository
+): ViewModel() {
 
     private val _total = MutableLiveData<Int>()
     val total: LiveData<Int> get() = _total

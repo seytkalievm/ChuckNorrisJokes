@@ -1,42 +1,35 @@
 package com.example.chucknorrisjokes.presentation.favourites
 
 import android.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.chucknorrisjokes.databinding.FavoritesFragmentBinding
 import com.example.chucknorrisjokes.data.local.Joke
-import com.example.chucknorrisjokes.viewmodel.viewModelFactories.FavoritesViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = FavoritesFragment()
-    }
-
     private lateinit var binding: FavoritesFragmentBinding
-    private lateinit var viewModel: FavoritesViewModel
-    private lateinit var viewModelFactory: FavoritesViewModelFactory
+    private val viewModel: FavoritesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val application = requireNotNull(activity).application
+    ): View {
         binding = FavoritesFragmentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-        viewModelFactory = FavoritesViewModelFactory(application)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[FavoritesViewModel::class.java]
         binding.viewModel = viewModel
 
         binding.FavoritesRecyclerView.adapter = FavoriteJokesAdapter(FavoriteJokesAdapter.OnClickListener{

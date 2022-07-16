@@ -1,23 +1,20 @@
 package com.example.chucknorrisjokes.data.repositories
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.chucknorrisjokes.data.local.Joke
-import com.example.chucknorrisjokes.data.local.JokesDatabase
 import com.example.chucknorrisjokes.data.local.JokesDatabaseDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class JokesRepository (application: Application){
-    private var jokesDao: JokesDatabaseDao
+
+class JokesRepository @Inject constructor(
+    private val jokesDao: JokesDatabaseDao
+) {
     private var coroutineScope = CoroutineScope(Dispatchers.IO)
 
-    init {
-        val db: JokesDatabase = JokesDatabase.getInstance(application)
-        jokesDao = db.jokesDatabaseDao
-    }
 
     fun getAllJokes(): LiveData<List<Joke>>{
         return jokesDao.getAllJokes()

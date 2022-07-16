@@ -1,25 +1,24 @@
 package com.example.chucknorrisjokes.presentation.joke
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.chucknorrisjokes.databinding.JokeFragmentBinding
 import com.example.chucknorrisjokes.data.local.Joke
-import com.example.chucknorrisjokes.viewmodel.viewModelFactories.JokeViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class JokeFragment : Fragment() {
 
     private var _binding: JokeFragmentBinding? = null
     private val binding: JokeFragmentBinding get() = _binding!!
 
-    private lateinit var viewModel: JokeViewModel
-    private lateinit var viewModelFactory: JokeViewModelFactory
-
-
+    private val viewModel: JokeViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -28,13 +27,7 @@ class JokeFragment : Fragment() {
     ): View {
         _binding = JokeFragmentBinding.inflate(inflater, container, false)
 
-        val application = requireNotNull(activity).application
-        val category = JokeFragmentArgs.fromBundle(
-            requireArguments()
-        ).selectedCategory
-
         binding.lifecycleOwner = this
-        viewModelFactory = JokeViewModelFactory(category, application)
 
         return binding.root
     }
@@ -43,7 +36,6 @@ class JokeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this, viewModelFactory)[JokeViewModel::class.java]
         binding.jokeViewModel = viewModel
 
         binding.updateButton.setOnClickListener {

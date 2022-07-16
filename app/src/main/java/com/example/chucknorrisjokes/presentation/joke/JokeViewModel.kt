@@ -1,24 +1,25 @@
 package com.example.chucknorrisjokes.presentation.joke
 
-import android.app.Application
 import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.example.chucknorrisjokes.model.network.ChuckNorrisApi
 import com.example.chucknorrisjokes.data.local.Joke
 import com.example.chucknorrisjokes.data.repositories.JokesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class JokeViewModel(private val category: String, app: Application) : AndroidViewModel(app) {
+@HiltViewModel
+class JokeViewModel @Inject constructor(
+    private val repository: JokesRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
-    private val repository = JokesRepository(app)
-
-
+    val category = savedStateHandle.get<String>("selectedCategory")
     private val _joke = MutableLiveData<Joke>()
     val joke: LiveData<Joke> get() = _joke
 
@@ -41,15 +42,18 @@ class JokeViewModel(private val category: String, app: Application) : AndroidVie
 
 
     private fun getJoke(){
-        coroutineScope.launch {
-            val getJokeDeferred = ChuckNorrisApi.RETROFIT_SERVICE.getJokeOnCategoryAsync(category)
-            try {
-                val result =getJokeDeferred.await()
-                if (result.url.isNotEmpty()){
-                    _joke.value = result
+        category?.let {
+            coroutineScope.launch {
+                val getJokeDeferred =
+                    ChuckNorrisApi.RETROFIT_SERVICE.getJokeOnCategoryAsync(category)
+                try {
+                    val result = getJokeDeferred.await()
+                    if (result.url.isNotEmpty()) {
+                        _joke.value = result
+                    }
+                } catch (t: SQLiteConstraintException) {
+                    Log.i("E", t.message.toString())
                 }
-            }catch (t: SQLiteConstraintException){
-                Log.i("E", t.message.toString())
             }
         }
     }

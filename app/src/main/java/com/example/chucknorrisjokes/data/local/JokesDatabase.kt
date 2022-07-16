@@ -2,6 +2,7 @@ package com.example.chucknorrisjokes.data.local
 
 import android.content.Context
 import androidx.room.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Database(entities = [Joke::class], version = 1, exportSchema = false)
 @TypeConverters(CategoriesConverter::class)

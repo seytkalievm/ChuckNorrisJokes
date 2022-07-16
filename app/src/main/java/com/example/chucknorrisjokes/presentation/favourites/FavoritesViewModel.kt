@@ -1,14 +1,18 @@
 package com.example.chucknorrisjokes.presentation.favourites
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.example.chucknorrisjokes.data.local.Joke
 import com.example.chucknorrisjokes.data.repositories.JokesRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class FavoritesViewModel @Inject constructor(
+    private val repository: JokesRepository
+) : ViewModel() {
 
-    private val repository = JokesRepository(application)
 
     val jokes: LiveData<List<Joke>> = repository.getAllJokes()
 

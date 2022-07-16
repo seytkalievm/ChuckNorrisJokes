@@ -2,7 +2,6 @@ package com.example.chucknorrisjokes.presentation.search
 
 import android.app.AlertDialog
 import android.content.Context
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -11,32 +10,31 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.chucknorrisjokes.R
 import com.example.chucknorrisjokes.databinding.SearchFragmentBinding
 import com.example.chucknorrisjokes.data.local.Joke
-import com.example.chucknorrisjokes.viewmodel.viewModelFactories.SearchViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var binding: SearchFragmentBinding
-    private lateinit var viewModelFactory: SearchViewModelFactory
-    private lateinit var viewModel: SearchViewModel
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val application = requireNotNull(activity).application
         binding = SearchFragmentBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
-        viewModelFactory = SearchViewModelFactory(application)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, viewModelFactory)[SearchViewModel::class.java]
         binding.viewModel = viewModel
 
         binding.resultsRecyclerView.adapter = SearchResultsAdapter(SearchResultsAdapter.OnClickListener{
