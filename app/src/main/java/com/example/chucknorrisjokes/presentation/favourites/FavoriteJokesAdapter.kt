@@ -1,16 +1,14 @@
-package com.example.chucknorrisjokes.view.adapters
+package com.example.chucknorrisjokes.presentation.favourites
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chucknorrisjokes.databinding.FavoritesFragmentBinding
 import com.example.chucknorrisjokes.databinding.SearchResultItemBinding
-import com.example.chucknorrisjokes.model.database.Joke
+import com.example.chucknorrisjokes.data.local.Joke
 
-class FavoriteJokesAdapter(private val onClickListener: FavoriteJokesAdapter.OnClickListener)
+class FavoriteJokesAdapter(private val onClickListener: OnClickListener)
     : ListAdapter<Joke, FavoriteJokesAdapter.JokeViewHolder>(DiffCallback){
 
     class JokeViewHolder(private var binding: SearchResultItemBinding):

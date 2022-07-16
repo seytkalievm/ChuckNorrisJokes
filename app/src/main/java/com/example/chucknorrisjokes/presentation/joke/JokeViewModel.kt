@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.viewmodel
+package com.example.chucknorrisjokes.presentation.joke
 
 import android.app.Application
 import android.database.sqlite.SQLiteConstraintException
@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.chucknorrisjokes.model.network.ChuckNorrisApi
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.model.database.JokesRepository
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.data.repositories.JokesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

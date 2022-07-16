@@ -1,12 +1,12 @@
-package com.example.chucknorrisjokes.model.database
+package com.example.chucknorrisjokes.data.repositories
 
 import android.app.Application
-import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.data.local.JokesDatabase
+import com.example.chucknorrisjokes.data.local.JokesDatabaseDao
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,7 @@ class JokesRepository (application: Application){
         jokesDao.insert(joke)
     }
 
-    fun deleteJoke(joke:Joke){
+    fun deleteJoke(joke: Joke){
         coroutineScope.launch {
             asyncDeleteJoke(joke)
         }

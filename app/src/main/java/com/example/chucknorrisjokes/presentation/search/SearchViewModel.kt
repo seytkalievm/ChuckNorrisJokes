@@ -1,14 +1,13 @@
-package com.example.chucknorrisjokes.viewmodel
+package com.example.chucknorrisjokes.presentation.search
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.chucknorrisjokes.model.network.ChuckNorrisApi
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.model.database.JokesRepository
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.data.repositories.JokesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,7 +30,7 @@ class SearchViewModel (application: Application): AndroidViewModel(application) 
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob+Dispatchers.Main)
 
-    fun addJoke(joke:Joke){
+    fun addJoke(joke: Joke){
         coroutineScope.launch {
             repository.addJoke(joke)
         }

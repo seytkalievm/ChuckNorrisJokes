@@ -1,7 +1,7 @@
 package com.example.chucknorrisjokes.model.network
 
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.model.data.SearchResult
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.data.remote.SearchResult
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

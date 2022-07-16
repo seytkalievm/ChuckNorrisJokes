@@ -1,15 +1,10 @@
-package com.example.chucknorrisjokes.viewmodel
+package com.example.chucknorrisjokes.presentation.favourites
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.model.database.JokesDatabaseDao
-import com.example.chucknorrisjokes.model.database.JokesRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.data.repositories.JokesRepository
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
 

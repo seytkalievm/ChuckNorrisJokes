@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.viewmodel
+package com.example.chucknorrisjokes.presentation.categories
 
 import android.util.Log
 import androidx.lifecycle.LiveData

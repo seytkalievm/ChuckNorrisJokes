@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.view.adapters
+package com.example.chucknorrisjokes.presentation.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisjokes.databinding.SearchResultItemBinding
-import com.example.chucknorrisjokes.model.database.Joke
+import com.example.chucknorrisjokes.data.local.Joke
 
 class SearchResultsAdapter(private val onClicklistener: OnClickListener): ListAdapter<Joke, SearchResultsAdapter.SearchResultViewHolder>(
     DiffCallback

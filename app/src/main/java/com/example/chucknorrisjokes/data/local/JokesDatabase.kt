@@ -1,7 +1,6 @@
-package com.example.chucknorrisjokes.model.database
+package com.example.chucknorrisjokes.data.local
 
 import android.content.Context
-import androidx.databinding.adapters.Converters
 import androidx.room.*
 
 @Database(entities = [Joke::class], version = 1, exportSchema = false)
@@ -14,7 +13,7 @@ abstract class JokesDatabase: RoomDatabase(){
         @Volatile
         private var INSTANCE: JokesDatabase? = null
 
-        fun getInstance(context: Context): JokesDatabase{
+        fun getInstance(context: Context): JokesDatabase {
             synchronized(this){
                 var instance = INSTANCE
 

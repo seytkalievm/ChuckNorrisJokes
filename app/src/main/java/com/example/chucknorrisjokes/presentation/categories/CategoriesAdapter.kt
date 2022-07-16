@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.view.adapters
+package com.example.chucknorrisjokes.presentation.categories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

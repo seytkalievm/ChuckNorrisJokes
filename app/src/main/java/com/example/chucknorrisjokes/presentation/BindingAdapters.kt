@@ -4,10 +4,10 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisjokes.R
-import com.example.chucknorrisjokes.view.adapters.CategoriesAdapter
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.view.adapters.FavoriteJokesAdapter
-import com.example.chucknorrisjokes.view.adapters.SearchResultsAdapter
+import com.example.chucknorrisjokes.presentation.categories.CategoriesAdapter
+import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.presentation.favourites.FavoriteJokesAdapter
+import com.example.chucknorrisjokes.presentation.search.SearchResultsAdapter
 import java.util.*
 
 

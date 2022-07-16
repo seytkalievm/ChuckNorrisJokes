@@ -1,12 +1,10 @@
-package com.example.chucknorrisjokes.model.database
+package com.example.chucknorrisjokes.data.local
 
-import android.database.sqlite.SQLiteConstraintException
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import kotlinx.coroutines.Deferred
 
 @Dao
 interface JokesDatabaseDao {
@@ -17,7 +15,7 @@ interface JokesDatabaseDao {
     fun getAllJokes():LiveData<List<Joke>>
 
     @Delete
-    fun delete(joke:Joke)
+    fun delete(joke: Joke)
 
     suspend fun asyncInsert(joke: Joke){
         insert(joke)

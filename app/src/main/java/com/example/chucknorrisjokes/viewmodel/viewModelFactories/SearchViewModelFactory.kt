@@ -3,7 +3,7 @@ package com.example.chucknorrisjokes.viewmodel.viewModelFactories
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.chucknorrisjokes.viewmodel.SearchViewModel
+import com.example.chucknorrisjokes.presentation.search.SearchViewModel
 import java.lang.IllegalArgumentException
 
 class SearchViewModelFactory(private val app: Application)

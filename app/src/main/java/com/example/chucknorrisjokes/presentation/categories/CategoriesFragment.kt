@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.view
+package com.example.chucknorrisjokes.presentation.categories
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -11,8 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.chucknorrisjokes.databinding.CategoriesFragmentBinding
-import com.example.chucknorrisjokes.view.adapters.CategoriesAdapter
-import com.example.chucknorrisjokes.viewmodel.CategoriesViewModel
 
 class CategoriesFragment : Fragment() {
 
@@ -44,13 +42,13 @@ class CategoriesFragment : Fragment() {
             viewModel.displayJoke(it)
         })
 
-        viewModel.navigateToSelectedCategory.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToSelectedCategory.observe(viewLifecycleOwner){
             if("null"!=it){
                 navController.navigate(
                     CategoriesFragmentDirections.actionMainFragmentToJokeFragment(it)
                 )
                 viewModel.displayJokeComplete()
             }
-        })
+        }
     }
 }

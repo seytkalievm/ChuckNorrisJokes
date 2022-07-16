@@ -1,6 +1,6 @@
-package com.example.chucknorrisjokes.model.data
+package com.example.chucknorrisjokes.data.remote
 
-import com.example.chucknorrisjokes.model.database.Joke
+import com.example.chucknorrisjokes.data.local.Joke
 
 data class SearchResult (
     val total: Int,

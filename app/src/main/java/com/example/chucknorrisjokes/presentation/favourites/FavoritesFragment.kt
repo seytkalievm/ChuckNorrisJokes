@@ -1,20 +1,14 @@
-package com.example.chucknorrisjokes.view
+package com.example.chucknorrisjokes.presentation.favourites
 
 import android.app.AlertDialog
-import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.BindingAdapter
-import com.example.chucknorrisjokes.R
 import com.example.chucknorrisjokes.databinding.FavoritesFragmentBinding
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.view.adapters.FavoriteJokesAdapter
-import com.example.chucknorrisjokes.view.adapters.SearchResultsAdapter
-import com.example.chucknorrisjokes.viewmodel.FavoritesViewModel
+import com.example.chucknorrisjokes.data.local.Joke
 import com.example.chucknorrisjokes.viewmodel.viewModelFactories.FavoritesViewModelFactory
 
 class FavoritesFragment : Fragment() {

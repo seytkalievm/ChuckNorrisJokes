@@ -3,12 +3,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.SearchFragment">
+    tools:context=".presentation.search.SearchFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.example.chucknorrisjokes.viewmodel.SearchViewModel" />
+            type="com.example.chucknorrisjokes.presentation.search.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

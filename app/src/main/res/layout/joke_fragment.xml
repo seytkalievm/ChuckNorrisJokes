@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.JokeFragment">
+    tools:context=".presentation.joke.JokeFragment">
 
     <data>
         <variable
             name="JokeViewModel"
-            type="com.example.chucknorrisjokes.viewmodel.JokeViewModel" />
+            type="com.example.chucknorrisjokes.presentation.joke.JokeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

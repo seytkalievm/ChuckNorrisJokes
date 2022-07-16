@@ -5,7 +5,7 @@
     <data>
         <variable
             name="CategoriesViewModel"
-            type="com.example.chucknorrisjokes.viewmodel.CategoriesViewModel" />
+            type="com.example.chucknorrisjokes.presentation.categories.CategoriesViewModel" />
     </data>
 
 

@@ -1,7 +1,6 @@
-package com.example.chucknorrisjokes.view
+package com.example.chucknorrisjokes.presentation.search
 
 import android.app.AlertDialog
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -14,9 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.example.chucknorrisjokes.R
 import com.example.chucknorrisjokes.databinding.SearchFragmentBinding
-import com.example.chucknorrisjokes.view.adapters.SearchResultsAdapter
-import com.example.chucknorrisjokes.model.database.Joke
-import com.example.chucknorrisjokes.viewmodel.SearchViewModel
+import com.example.chucknorrisjokes.data.local.Joke
 import com.example.chucknorrisjokes.viewmodel.viewModelFactories.SearchViewModelFactory
 
 class SearchFragment : Fragment() {

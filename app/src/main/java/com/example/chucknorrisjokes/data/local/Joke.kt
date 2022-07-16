@@ -1,4 +1,4 @@
-package com.example.chucknorrisjokes.model.database
+package com.example.chucknorrisjokes.data.local
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
