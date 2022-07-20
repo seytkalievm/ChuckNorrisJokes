@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.chucknorrisjokes.model.network.ChuckNorrisApi
+import com.example.chucknorrisjokes.common.Resource
+import com.example.chucknorrisjokes.domain.model.category.Category
+import com.example.chucknorrisjokes.domain.repository.RemoteJokesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,43 +15,31 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(): ViewModel() {
+class CategoriesViewModel @Inject constructor(
+    private val repo: RemoteJokesRepository
+): ViewModel() {
 
-    private val _categories = MutableLiveData<List<String>>()
-    val categories: LiveData<List<String>> get() =_categories
+    private val _categories = MutableLiveData<Resource<List<Category>>>()
+    val categories: LiveData<Resource<List<Category>>> get() =_categories
 
     private var viewModelJob = Job()
     private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
-    private val _navigateToSelectedCategory = MutableLiveData<String>()
-    val navigateToSelectedCategory: LiveData<String> get() = _navigateToSelectedCategory
 
     init{
         getCategories()
     }
 
     private fun getCategories(){
+        _categories.postValue(Resource.Loading())
         coroutineScope.launch {
-            val getCategoriesDeferred = ChuckNorrisApi.RETROFIT_SERVICE.getCategoriesAsync()
             try {
-                val listResult = getCategoriesDeferred.await()
-                if(listResult.isNotEmpty()){
-                    _categories.value = listResult
-                }
+                _categories.postValue(Resource.Success(repo.getCategories()))
             }catch (t: Throwable){
-
+                _categories.postValue(Resource.Error(t.message?:"Unknown Error"))
                 Log.i("E", t.toString())
             }
 
         }
-    }
-
-    fun displayJoke(category: String){
-        _navigateToSelectedCategory.value = category
-    }
-
-    fun displayJokeComplete(){
-        _navigateToSelectedCategory.value = "null"
     }
 
 

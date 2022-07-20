@@ -1,22 +1,22 @@
 package com.example.chucknorrisjokes.presentation.joke
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import com.example.chucknorrisjokes.common.Resource
 import com.example.chucknorrisjokes.databinding.JokeFragmentBinding
-import com.example.chucknorrisjokes.data.local.Joke
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class JokeFragment : Fragment() {
 
-    private var _binding: JokeFragmentBinding? = null
-    private val binding: JokeFragmentBinding get() = _binding!!
+    private lateinit var binding: JokeFragmentBinding
 
     private val viewModel: JokeViewModel by viewModels()
 
@@ -25,10 +25,7 @@ class JokeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = JokeFragmentBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = this
-
+        binding = JokeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,29 +33,58 @@ class JokeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.jokeViewModel = viewModel
+        var shown = true
 
-        binding.updateButton.setOnClickListener {
+
+        viewModel.saveStatus.observe(viewLifecycleOwner){
+            if (!shown){
+                shown = true
+                Log.i("JokeFragment", "onViewCreated: saveStatus:${getString(it)}")
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        viewModel.status.observe(viewLifecycleOwner){ status ->
+            when (status){
+                is Resource.Loading -> {
+                    binding.apply {
+                        isLoaded = false
+                        isError = false
+                        isLoading = true
+                    }
+                }
+                is Resource.Success -> {
+                    binding.apply {
+                        isLoading = false
+                        isError = false
+                        isLoaded = true
+                        joke = status.data
+                    }
+                }
+                is Resource.Error -> {
+                    binding.apply {
+                        isLoading = false
+                        isLoaded = false
+                        isError = true
+                        jokesFragmentErrorText.text = status.message
+                    }
+                }
+            }
+        }
+
+        binding.jokeFragmentUpdateBtn.setOnClickListener {
             viewModel.updateJoke()
         }
 
-        binding.backButton.setOnClickListener {
-            this.findNavController().popBackStack()
+        binding.jokesFragmentTryAgainBtn.setOnClickListener {
+            viewModel.updateJoke()
         }
 
-        binding.addToFavorites.setOnClickListener{
-            addJoke(viewModel.joke.value!!)
+        binding.jokeFragmentAddToFavoritesBtn.setOnClickListener{
+            shown = false
+            viewModel.addJokeToFavorites()
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
-    private fun addJoke(joke: Joke){
-        viewModel.addJokeToFavorites(joke)
     }
 
 

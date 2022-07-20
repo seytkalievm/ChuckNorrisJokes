@@ -1,6 +1,5 @@
 package com.example.chucknorrisjokes.presentation.search
 
-import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
@@ -12,8 +11,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.chucknorrisjokes.R
+import com.example.chucknorrisjokes.common.Resource
 import com.example.chucknorrisjokes.databinding.SearchFragmentBinding
-import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.domain.model.joke.display
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,49 +28,79 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = SearchFragmentBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = viewModel
 
-        binding.resultsRecyclerView.adapter = SearchResultsAdapter(SearchResultsAdapter.OnClickListener{
-            displayJoke(it)
+        val adapter = SearchResultsAdapter(SearchResultsAdapter.OnClickListener{joke ->
+            context?.let {
+                joke.display(
+                    it,
+                    positiveButtonClickListener = {viewModel.addJoke(joke)},
+                    positiveButtonTitle = R.string.add_to_favorites
+                )
+            }
         })
 
-        binding.searchEditText.setOnClickListener{
-            hideKeyboard()
-        }
+        binding.apply {
+            resultsRecyclerView.adapter = adapter
 
-        binding.searchButton.setOnClickListener {
-            search()
-            hideKeyboard(it)
-        }
+            searchEditText.setOnClickListener{ hideKeyboard() }
 
-        viewModel.total.observe(viewLifecycleOwner){
-            if(it.equals(0)){
-                binding.resultsRecyclerView.visibility = View.INVISIBLE
-                binding.textView3.visibility = View.VISIBLE
-            }else{
-                binding.resultsRecyclerView.visibility = View.VISIBLE
-                binding.textView3.visibility = View.GONE
+            searchButton.setOnClickListener {
+                search()
+                hideKeyboard(it)
             }
+        }
+
+        viewModel.status.observe(viewLifecycleOwner){resource ->
+            when (resource){
+                is Resource.Loading -> {
+                    binding.apply {
+                        isError = false
+                        isLoaded = false
+                        isLoading = true
+                        searchFragmentNoResultsTv.visibility = View.GONE
+                    }
+                }
+                is Resource.Success -> {
+                    binding.apply {
+                        isError = false
+                        isLoading = false
+                        isLoaded = true
+                        if (resource.data!!.isEmpty()) {
+                            resultsRecyclerView.visibility = View.GONE
+                            searchFragmentNoResultsTv.visibility = View.VISIBLE
+                        } else{
+                            searchFragmentNoResultsTv.visibility = View.GONE
+                            resultsRecyclerView.visibility = View.VISIBLE
+                            adapter.submitList(resource.data)
+                        }
+                    }
+                }
+
+                is Resource.Error -> {
+                    binding.apply {
+                        isLoaded = false
+                        isLoading = false
+                        isError = true
+                    }
+                }
+            }
+
         }
 
     }
 
     private fun search(){
-        val query = binding.searchEditText.text.toString()
-        val toast = Toast.makeText(context, "", Toast.LENGTH_SHORT)
-        if( query.length < 3){
-            toast.setText(R.string.invalid_query)
-            toast.show()
-        } else {
+        val query = binding.searchEditText.text.toString().trim()
+        if( query.length < 3)
+            Toast.makeText(context, R.string.invalid_query, Toast.LENGTH_SHORT).show()
+        else
             viewModel.search(query)
-        }
     }
 
     private fun hideKeyboard(view: View){
@@ -88,20 +118,5 @@ class SearchFragment : Fragment() {
             false
         })
     }
-
-    private fun displayJoke(joke: Joke){
-        val alertDialog = AlertDialog.Builder(activity)
-
-        if (joke.categories.isEmpty()) alertDialog.setTitle("No category") else
-            alertDialog.setTitle(joke.categories[0])
-
-        alertDialog.setMessage(joke.value)
-        alertDialog.setPositiveButton("Add to favorites") { _,_->
-            viewModel.addJoke(joke)
-        }
-        alertDialog.setNegativeButton("Back") { _, _ -> }
-        alertDialog.show()
-    }
-
 
 }

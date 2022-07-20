@@ -8,8 +8,9 @@
     <fragment
         android:id="@+id/categoriesFragment"
         android:name="com.example.chucknorrisjokes.presentation.categories.CategoriesFragment"
-        android:label="categories_fragment"
+        android:label="Categories"
         tools:layout="@layout/categories_fragment">
+
         <action
             android:id="@+id/actionMainFragmentToJokeFragment"
             app:destination="@id/jokeFragment"
@@ -18,26 +19,28 @@
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@anim/slide_right" />
     </fragment>
+
     <fragment
         android:id="@+id/jokeFragment"
         android:name="com.example.chucknorrisjokes.presentation.joke.JokeFragment"
-        android:label="joke_fragment"
+        android:label="Joke"
         tools:layout="@layout/joke_fragment">
-
 
         <argument
             android:name="selectedCategory"
             app:argType="string" />
     </fragment>
+
     <fragment
         android:id="@+id/favoritesFragment"
         android:name="com.example.chucknorrisjokes.presentation.favourites.FavoritesFragment"
-        android:label="favorites_fragment"
+        android:label="Favourites"
         tools:layout="@layout/favorites_fragment" />
+
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.chucknorrisjokes.presentation.search.SearchFragment"
-        android:label="search_fragment"
+        android:label="Search"
         tools:layout="@layout/search_fragment" />
 
 
