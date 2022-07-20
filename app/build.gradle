@@ -86,9 +86,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.42"
     kapt "com.google.dagger:hilt-compiler:2.42"
 
-
-
-
-
+    // Logging Interceptor
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
 
 }

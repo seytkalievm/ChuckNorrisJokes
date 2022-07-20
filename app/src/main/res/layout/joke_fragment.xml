@@ -5,89 +5,123 @@
     tools:context=".presentation.joke.JokeFragment">
 
     <data>
+        <import type="android.view.View"/>
+
         <variable
-            name="JokeViewModel"
-            type="com.example.chucknorrisjokes.presentation.joke.JokeViewModel" />
+            name="joke"
+            type="com.example.chucknorrisjokes.domain.model.joke.Joke" />
+
+        <variable
+            name="isLoading"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="isLoaded"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="isError"
+            type="java.lang.Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="8dp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="219dp">
+        android:gravity="center">
+
 
         <TextView
-            android:id="@+id/Category"
-            category="@{JokeViewModel.joke}"
+            android:id="@+id/jokeFragmentCategoryTv"
+            category="@{joke}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
             android:text="@string/category"
             android:textAlignment="center"
             android:textSize="32sp"
-            app:layout_constraintBottom_toTopOf="@+id/Joke"
+            android:visibility="@{isLoaded? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/jokeFragmentJokeTv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/Joke"
-            joke="@{JokeViewModel.joke}"
+            android:id="@+id/jokeFragmentJokeTv"
+            joke="@{joke}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="@string/joke"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            android:visibility="@{isLoaded? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toTopOf="@+id/jokeFragmentButtonsLinearLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Category" />
-
+            app:layout_constraintTop_toBottomOf="@+id/jokeFragmentCategoryTv" />
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/jokeFragmentButtonsLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="128dp"
             android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="@{isLoaded? View.VISIBLE : View.GONE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jokeFragmentJokeTv">
+
+            <Button
+                android:id="@+id/jokeFragmentAddToFavoritesBtn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:text="@string/add_to_favorites" />
+
+            <Button
+                android:id="@+id/jokeFragmentUpdateBtn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:text="@string/Next" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/jokeFragmentPb"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{isLoading? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/jokesFragmentErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/error"
+            android:visibility="@{isError? View.VISIBLE : View.GONE, default=gone}"
+            app:layout_constraintBottom_toTopOf="@+id/jokesFragmentTryAgainBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/jokesFragmentTryAgainBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/try_again"
+            android:visibility="@{isError? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Joke">
-
-            <Button
-                android:id="@+id/updateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="@string/Next"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="@string/back"
-                style="?android:attr/buttonBarButtonStyle" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/addToFavorites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_to_favorites"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-            style="?android:attr/buttonBarButtonStyle" />
+            app:layout_constraintTop_toBottomOf="@+id/jokesFragmentErrorText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

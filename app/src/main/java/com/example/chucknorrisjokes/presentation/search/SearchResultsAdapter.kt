@@ -6,25 +6,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisjokes.databinding.SearchResultItemBinding
-import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.domain.model.joke.Joke
 
-class SearchResultsAdapter(private val onClicklistener: OnClickListener): ListAdapter<Joke, SearchResultsAdapter.SearchResultViewHolder>(
+class SearchResultsAdapter(private val onClickListener: OnClickListener): ListAdapter<Joke, SearchResultsAdapter.SearchResultViewHolder>(
     DiffCallback
 ) {
     class SearchResultViewHolder(private var binding: SearchResultItemBinding):
         RecyclerView.ViewHolder(binding.root){
         fun bind(joke: Joke) {
-            binding.joke.text = joke.value
+            binding.joke.text = joke.joke
         }
     }
 
     companion object DiffCallback: DiffUtil.ItemCallback<Joke>() {
         override fun areItemsTheSame(oldItem: Joke, newItem: Joke): Boolean {
-            return oldItem.url == newItem.url
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: Joke, newItem: Joke): Boolean {
-            return oldItem.value == oldItem.value
+            return oldItem.joke == oldItem.joke
         }
     }
 
@@ -36,7 +36,7 @@ class SearchResultsAdapter(private val onClicklistener: OnClickListener): ListAd
     override fun onBindViewHolder(holder: SearchResultViewHolder, position: Int) {
         val joke = getItem(position)
         holder.itemView.setOnClickListener{
-            onClicklistener.onClick(joke)
+            onClickListener.onClick(joke)
         }
         holder.bind(joke)
 

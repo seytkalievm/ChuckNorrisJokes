@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.example.chucknorrisjokes.common.Resource
 import com.example.chucknorrisjokes.databinding.CategoriesFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,15 +21,13 @@ class CategoriesFragment : Fragment() {
 
     private val binding get() = _binding!!
     private val viewModel: CategoriesViewModel by viewModels()
-    lateinit var navController: NavController
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = CategoriesFragmentBinding.inflate(inflater, container, false)
-
-        binding.lifecycleOwner = this
         navController = this.findNavController()
 
         return binding.root
@@ -37,19 +36,48 @@ class CategoriesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ViewCompat.setTranslationZ(requireView(), 100f)
-        binding.categoriesViewModel = viewModel
 
-        binding.categoriesRv.adapter = CategoriesAdapter(CategoriesAdapter.OnClickListener{
-            viewModel.displayJoke(it)
-        })
+        val adapter = CategoriesAdapter(CategoriesAdapter
+            .OnClickListener{ displayJoke(it.category) })
 
-        viewModel.navigateToSelectedCategory.observe(viewLifecycleOwner){
-            if("null"!=it){
-                navController.navigate(
-                    CategoriesFragmentDirections.actionMainFragmentToJokeFragment(it)
-                )
-                viewModel.displayJokeComplete()
+        binding.categoriesRv.adapter = adapter
+
+        viewModel.categories.observe(viewLifecycleOwner){ resource ->
+            when (resource){
+                is Resource.Success -> {
+                    binding.apply {
+                        isError = false
+                        isLoading = false
+                        isLoaded = true
+                    }
+                    adapter.submitList(resource.data)
+                }
+
+                is Resource.Loading -> {
+                    binding.apply {
+                        isError = false
+                        isLoaded = false
+                        isLoading = true
+                    }
+                }
+
+                is Resource.Error -> {
+                    binding.apply {
+                        isError = true
+                        isLoading = false
+                        isLoaded = false
+                        categoriesFragmentErrorTv.text = resource.message
+                    }
+
+                }
             }
         }
+
+    }
+
+    private fun displayJoke(category: String){
+        navController.navigate(
+            CategoriesFragmentDirections.actionMainFragmentToJokeFragment(category)
+        )
     }
 }

@@ -3,21 +3,27 @@ package com.example.chucknorrisjokes.presentation.favourites
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.chucknorrisjokes.data.local.Joke
-import com.example.chucknorrisjokes.data.repositories.JokesRepository
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.chucknorrisjokes.data.repositories.LocalJokesRepositoryImpl
+import com.example.chucknorrisjokes.domain.model.joke.Joke
+import com.example.chucknorrisjokes.domain.repository.LocalJokesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val repository: JokesRepository
+    private val repository: LocalJokesRepository
 ) : ViewModel() {
 
+    val jokes: LiveData<List<Joke>> = repository.getAllJokes().asLiveData()
 
-    val jokes: LiveData<List<Joke>> = repository.getAllJokes()
-
-    fun deleteJoke(joke: Joke){
-        repository.deleteJoke(joke)
+    fun deleteJoke(joke: Joke): Unit{
+        viewModelScope.launch(Dispatchers.IO){
+            repository.deleteFromFavourites(joke)
+        }
     }
 
 }

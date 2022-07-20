@@ -1,31 +1,20 @@
 package com.example.chucknorrisjokes.data.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import com.example.chucknorrisjokes.data.local.entity.JokeEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface JokesDatabaseDao {
     @Insert
-    fun insert(joke: Joke)
+    suspend fun insert(joke: JokeEntity)
 
     @Query("SELECT * FROM jokes_table")
-    fun getAllJokes():LiveData<List<Joke>>
+    fun getAllJokes(): Flow<List<JokeEntity>>
 
     @Delete
-    fun delete(joke: Joke)
-
-    suspend fun asyncInsert(joke: Joke){
-        insert(joke)
-    }
-
-    suspend fun asyncGetAllJokes():LiveData<List<Joke>>{
-        return getAllJokes()
-    }
-
-    suspend fun asyncDelete(joke: Joke){
-        delete(joke)
-    }
+    suspend fun delete(joke: JokeEntity)
 }

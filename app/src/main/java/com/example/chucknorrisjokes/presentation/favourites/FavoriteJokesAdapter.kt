@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chucknorrisjokes.databinding.SearchResultItemBinding
-import com.example.chucknorrisjokes.data.local.Joke
+import com.example.chucknorrisjokes.domain.model.joke.Joke
 
 class FavoriteJokesAdapter(private val onClickListener: OnClickListener)
     : ListAdapter<Joke, FavoriteJokesAdapter.JokeViewHolder>(DiffCallback){
@@ -14,18 +14,18 @@ class FavoriteJokesAdapter(private val onClickListener: OnClickListener)
     class JokeViewHolder(private var binding: SearchResultItemBinding):
         RecyclerView.ViewHolder(binding.root){
             fun bind(joke: Joke){
-                binding.joke.text = joke.value
+                binding.joke.text = joke.joke
             }
 
     }
 
     companion object DiffCallback: DiffUtil.ItemCallback<Joke>(){
         override fun areItemsTheSame(oldItem: Joke, newItem: Joke): Boolean {
-            return oldItem.url == oldItem.url
+            return oldItem.id == oldItem.id
         }
 
         override fun areContentsTheSame(oldItem: Joke, newItem: Joke): Boolean {
-            return oldItem.value == newItem.value
+            return oldItem.joke == newItem.joke
         }
     }
 
